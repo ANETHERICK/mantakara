@@ -1,10 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'password_recovery.dart';
 import 'sign_up_screen.dart';
-import 'package:flutter_application_1/home_page.dart';
+import 'home_page.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -18,7 +20,90 @@ class LoginScreenState extends State<LoginScreen> {
   final logger = Logger();
   bool isPasswordVisible = false;
 
-  Widget buildEmail() {
+  late TextEditingController _usernameController;
+  late TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void handleLogin() async {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    // Create a map of the login data
+    final data = {
+      'username': username,
+      'password': password,
+    };
+    logger.d(username);
+
+    // Send the login request
+    final response = await http.post(
+      Uri.parse('http://192.168.43.209/FILE_SYSTEM.PHP/login.php'),
+      body: data,
+    );
+
+    // Check the response status
+    if (response.statusCode == 200) {
+      // Parse the response JSON
+      final responseData = json.decode(response.body);
+
+      // Check if the login was successful
+      if (responseData['success']) {
+        // Login successful, navigate to the screen page
+        _navigateToScreenPage();
+      } else {
+        // Login failed, show an error message
+        _showErrorDialog(responseData['message']);
+      }
+    } else {
+      // Error occurred while sending the login request
+      _showErrorDialog('Error: ${response.statusCode}');
+    }
+  }
+
+  void _navigateToScreenPage() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const HomePage(
+                username: '',
+              )),
+    );
+  }
+
+  void _showErrorDialog(String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Login Failed'),
+          content: Text(errorMessage),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildUsername() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -38,15 +123,17 @@ class LoginScreenState extends State<LoginScreen> {
                     color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
               ]),
           height: 60,
-          child: const TextField(
+          child: TextField(
+            controller: _usernameController, // Use _usernameController
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(color: Colors.black87),
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 14),
-                prefixIcon: Icon(Feather.user, color: Color(0xff5ac18e)),
-                hintText: 'Username',
-                hintStyle: TextStyle(color: Colors.black38)),
+            style: const TextStyle(color: Colors.black87),
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14),
+              prefixIcon: Icon(Feather.user, color: Color(0xff5ac18e)),
+              hintText: 'Username',
+              hintStyle: TextStyle(color: Colors.black38),
+            ),
           ),
         )
       ],
@@ -84,6 +171,7 @@ class LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               Expanded(
                 child: TextField(
+                  controller: _passwordController, // Use _passwordController
                   obscureText: !isPasswordVisible,
                   style: const TextStyle(color: Colors.black87),
                   decoration: const InputDecoration(
@@ -159,16 +247,6 @@ class LoginScreenState extends State<LoginScreen> {
           )
         ],
       ),
-    );
-  }
-
-  void handleLogin() {
-    // Perform login logic
-
-    // If login is successful, navigate to the home page
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
     );
   }
 
@@ -261,14 +339,14 @@ class LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       const Text(
-                        'Sign In',
+                        'FILE TRACKING SYSTEM',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 40,
                             fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 50),
-                      buildEmail(),
+                      buildUsername(),
                       const SizedBox(height: 20),
                       buildPassword(),
                       buildForgotPassBtn(),

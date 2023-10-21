@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -37,26 +38,35 @@ class SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
-    final Uri url = Uri.parse('http://localhost/signup.php');
+    final Uri url =
+        Uri.parse('http://192.168.43.209/file_system.php/signup.php');
     final response = await http.post(
       url,
       body: {
         'username': username,
         'email': email,
         'password': password,
+        'confirm_password': confirmPassword,
       },
     );
 
     if (response.statusCode == 200) {
-      // Sign up successful
-      _showNotificationDialog('Sign up successful');
-      _usernameController.clear();
-      _emailController.clear();
-      _passwordController.clear();
-      _confirmPasswordController.clear();
+      final data = json.decode(response.body);
+
+      if (data['success']) {
+        // Sign up successful
+        _showNotificationDialog('Sign up successful');
+        _usernameController.clear();
+        _emailController.clear();
+        _passwordController.clear();
+        _confirmPasswordController.clear();
+      } else {
+        // Sign up failed
+        _showNotificationDialog('Sign up failed: ${data['message']}');
+      }
     } else {
-      // Sign up failed
-      _showNotificationDialog('Sign up failed. Please try again.');
+      // Sign up request failed
+      _showNotificationDialog('Sign up request failed. Please try again.');
     }
   }
 
@@ -81,61 +91,101 @@ class SignUpScreenState extends State<SignUpScreen> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign Up'),
       ),
+      backgroundColor:
+          const Color.fromARGB(255, 158, 212, 186), // Set the background color
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: 'Username',
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
               ),
-            ),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-              ),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
-                  icon: Icon(_isPasswordVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0, vertical: 8.0), // Increase padding
+              child: TextField(
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                  labelText: 'Username',
                 ),
               ),
-              obscureText: !_isPasswordVisible,
             ),
-            TextField(
-              controller: _confirmPasswordController,
-              decoration: InputDecoration(
-                labelText: 'Confirm Password',
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-                    });
-                  },
-                  icon: Icon(_isConfirmPasswordVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off),
+            const SizedBox(height: 30.0), // Add spacing between fields
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+              ),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0, vertical: 8.0), // Increase padding
+              child: TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
                 ),
               ),
-              obscureText: !_isConfirmPasswordVisible,
             ),
+            const SizedBox(height: 30.0), // Add spacing between fields
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+              ),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0, vertical: 8.0), // Increase padding
+              child: TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                    icon: Icon(_isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off),
+                  ),
+                ),
+                obscureText: !_isPasswordVisible,
+              ),
+            ),
+            const SizedBox(height: 30.0), // Add spacing between fields
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+              ),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0, vertical: 8.0), // Increase padding
+              child: TextField(
+                controller: _confirmPasswordController,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                      });
+                    },
+                    icon: Icon(_isConfirmPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off),
+                  ),
+                ),
+                obscureText: !_isConfirmPasswordVisible,
+              ),
+            ),
+            const SizedBox(
+                height: 30.0), // Increase spacing between fields and button
             ElevatedButton(
               onPressed: _handleSignUp,
               child: const Text('Sign Up'),

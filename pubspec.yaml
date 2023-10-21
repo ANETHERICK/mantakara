@@ -29,15 +29,24 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter:
-    sdk: flutter
+  # flutter:
+  #   sdk: flutter
   # flutter_nfc_kit: ^3.3.1
   logger: ^1.3.0
-  google_fonts: ^4.0.4
+  # google_fonts: ^4.0.5
   flutter_vector_icons: ^2.0.0
   crypto: ^3.0.1
-  http: ^0.13.4
-
+  http: ^1.0.0
+  flutter:
+    sdk: flutter
+  path_provider: ^2.0.5
+  provider: ^6.0.5
+  sqflite: ^2.2.8+4
+  path: ^1.8.3
+  #flutter_nfc_kit: ^3.3.1
+  #nfc_in_flutter: ^2.0.5
+  #flutter_nfc_reader: ^3.0.2
+  
 
 
 
