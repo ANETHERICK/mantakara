@@ -46,14 +46,6 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
               },
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: Center(
-              child: result != null
-                  ? Text('Scanned QR Code: ${result!.code}')
-                  : Text('Scan a QR code to view its value.'),
-            ),
-          ),
         ],
       ),
     );
