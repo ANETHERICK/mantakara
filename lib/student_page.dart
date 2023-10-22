@@ -1,8 +1,18 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'file_student_page.dart';
 
 class StudentPage extends StatefulWidget {
-  const StudentPage({Key? key}) : super(key: key);
+  final String? name;
+  final String? registration_number;
+  final String? course;
+  StudentPage(
+      {Key? key,
+      required this.name,
+      required this.registration_number,
+      required this.course})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -15,7 +25,7 @@ class _StudentPageState extends State<StudentPage> {
 
   String _name = '';
   String _regNo = '';
-  String _course = 'CSN';
+  String _course = '';
   late String _date;
   String _fromWhom = '';
   String _toWhom = '';
@@ -23,6 +33,9 @@ class _StudentPageState extends State<StudentPage> {
   @override
   void initState() {
     super.initState();
+    _name = widget.name ?? '';
+    _regNo = widget.registration_number ?? '';
+    _course = widget.course ?? '';
     _date = DateTime.now().toString().split(' ')[0];
   }
 
@@ -69,6 +82,7 @@ class _StudentPageState extends State<StudentPage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      initialValue: _name,
                       decoration: const InputDecoration(labelText: 'Name'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -80,6 +94,7 @@ class _StudentPageState extends State<StudentPage> {
                     ),
                     const SizedBox(height: 16.0),
                     TextFormField(
+                      initialValue: _regNo,
                       decoration: const InputDecoration(labelText: 'Reg No'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
