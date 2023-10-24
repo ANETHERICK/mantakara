@@ -49,16 +49,10 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const StudentPage(),
-                  //   ),
-                  // );
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  QRCodeScannerScreen(),
+                      builder: (context) =>  QRCodeScannerScreen(type: 'student',),
                     ),
                   );
                 },
@@ -79,7 +73,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SubjectPage(),
+                      builder: (context) =>  QRCodeScannerScreen(type: 'subject',),
                     ),
                   );
                 },
@@ -100,7 +94,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const EmployeePage(),
+                      builder: (context) =>  QRCodeScannerScreen(type: 'employee',),
                     ),
                   );
                 },
