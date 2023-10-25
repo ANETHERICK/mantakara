@@ -1,8 +1,17 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'file_subject_page.dart';
 
 class SubjectPage extends StatefulWidget {
-  const SubjectPage({Key? key}) : super(key: key);
+  final String? file_number;
+  final String? index_heading;
+  const SubjectPage(
+      {Key? key,
+          required this.file_number,
+          required this.index_heading
+      })
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -18,6 +27,14 @@ class _HomePageState extends State<SubjectPage> {
   late String _date;
   String _fromWhom = '';
   String _toWhom = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fileNo = widget.file_number ?? '';
+    _indexHeadings = widget.index_heading ?? '';
+    _date = DateTime.now().toString().split(' ')[0];
+  }
 
   @override
   Widget build(BuildContext context) {

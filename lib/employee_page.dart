@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'file_employee_page.dart';
 
 class EmployeePage extends StatefulWidget {
-  const EmployeePage({Key? key}) : super(key: key);
+  final String? name;
+  final String? department;
+  const EmployeePage({Key? key, required this.name, required this.department})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -26,6 +29,8 @@ class _HomePageState extends State<EmployeePage> {
     super.initState();
     _dateController.text = DateTime.now().toString().split(' ')[0];
     _date = _dateController.text;
+    _employeeName = widget.name ?? '';
+    _department = widget.department ?? '';
   }
 
   @override
