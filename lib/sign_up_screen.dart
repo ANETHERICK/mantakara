@@ -38,8 +38,7 @@ class SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
-    final Uri url =
-        Uri.parse('http://192.168.43.209/file_system.php/signup.php');
+    final Uri url = Uri.parse('http://192.168.1.12/file_system.php/signup.php');
     final response = await http.post(
       url,
       body: {

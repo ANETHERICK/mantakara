@@ -7,7 +7,7 @@ class StudentPage extends StatefulWidget {
   final String? name;
   final String? registration_number;
   final String? course;
-  StudentPage(
+  const StudentPage(
       {Key? key,
       required this.name,
       required this.registration_number,

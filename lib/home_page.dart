@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/qr_code_scanner.dart';
-import 'student_page.dart';
+// import 'student_page.dart';
 import 'employee_page.dart';
 import 'subject_page.dart';
 
@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  QRCodeScannerScreen(),
+                      builder: (context) => const QRCodeScannerScreen(),
                     ),
                   );
                 },

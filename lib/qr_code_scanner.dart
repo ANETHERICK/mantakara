@@ -3,7 +3,10 @@ import 'package:flutter_application_1/student_page.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRCodeScannerScreen extends StatefulWidget {
+  const QRCodeScannerScreen({Key? key}) : super(key: key);
+
   @override
+  // ignore: library_private_types_in_public_api
   _QRCodeScannerScreenState createState() => _QRCodeScannerScreenState();
 }
 
@@ -28,7 +31,7 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('QR Code Scanner'),
+        title: const Text('QR Code Scanner'),
       ),
       body: Column(
         children: <Widget>[

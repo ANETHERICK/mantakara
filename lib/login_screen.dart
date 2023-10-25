@@ -50,7 +50,7 @@ class LoginScreenState extends State<LoginScreen> {
 
     // Send the login request
     final response = await http.post(
-      Uri.parse('http://192.168.43.209/FILE_SYSTEM.PHP/login.php'),
+      Uri.parse('http://192.168.1.12/FILE_SYSTEM.PHP/login.php'),
       body: data,
     );
 
