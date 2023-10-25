@@ -28,6 +28,8 @@ class _HomePageState extends State<EmployeePage> {
   void initState() {
     super.initState();
     _dateController.text = DateTime.now().toString().split(' ')[0];
+    print(widget.name);
+    print(widget.department);
     _date = _dateController.text;
     _employeeName = widget.name ?? '';
     _department = widget.department ?? '';
@@ -83,6 +85,7 @@ class _HomePageState extends State<EmployeePage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      initialValue: _employeeName,
                       decoration:
                           const InputDecoration(labelText: 'Employee Name'),
                       validator: (value) {

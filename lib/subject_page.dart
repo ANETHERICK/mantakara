@@ -7,10 +7,7 @@ class SubjectPage extends StatefulWidget {
   final String? file_number;
   final String? index_heading;
   const SubjectPage(
-      {Key? key,
-          required this.file_number,
-          required this.index_heading
-      })
+      {Key? key, required this.file_number, required this.index_heading})
       : super(key: key);
 
   @override
@@ -31,6 +28,8 @@ class _HomePageState extends State<SubjectPage> {
   @override
   void initState() {
     super.initState();
+    print(widget.file_number);
+    print(widget.index_heading);
     _fileNo = widget.file_number ?? '';
     _indexHeadings = widget.index_heading ?? '';
     _date = DateTime.now().toString().split(' ')[0];
@@ -40,7 +39,7 @@ class _HomePageState extends State<SubjectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('File Tracking System'),
+        title: Text(widget.file_number.toString()),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -80,6 +79,7 @@ class _HomePageState extends State<SubjectPage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      initialValue: _fileNo,
                       decoration: const InputDecoration(labelText: 'File No'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -91,6 +91,7 @@ class _HomePageState extends State<SubjectPage> {
                     ),
                     const SizedBox(height: 16.0),
                     TextFormField(
+                      initialValue: _indexHeadings,
                       decoration:
                           const InputDecoration(labelText: 'Index Headings'),
                       validator: (value) {

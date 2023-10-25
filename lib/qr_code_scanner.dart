@@ -31,6 +31,7 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
                 )),
       );
     } else if (widget.type == 'subject') {
+      // print(parts[0]);
       Navigator.push(
         context,
         MaterialPageRoute(
